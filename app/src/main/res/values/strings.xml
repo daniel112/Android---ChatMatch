@@ -4,9 +4,12 @@
     <string name="close">Close</string>
     <string name="open">Open</string>
 
+    <string name="home">Home</string>
+    <string name="website">Website</string>
+
     <string name="login">LOG IN</string>
     <string name="signup">SIGN UP</string>
-    <string name="howitworks">how it works</string>
+    <string name="howitworks">See How it works</string>
     <string name="or">or</string>
 
     <!-- TODO: Remove or change this placeholder text -->

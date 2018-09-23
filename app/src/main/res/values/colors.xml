@@ -3,4 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryBlue">#0E6C85</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorPrimaryBackground">#219FC1</color>
+    <color name="colorLogIn">#265A88</color>
+    <color name="colorSignUp">#65C9E3</color>
 </resources>

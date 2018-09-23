@@ -1,143 +1,78 @@
 package com.chatmatch;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.chatmatch.models.SideMenuModel;
+import com.chatmatch.fragments.HomeFragment;
+import com.chatmatch.fragments.WebViewFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnFragmentInteractionListener, WebViewFragment.OnFragmentInteractionListener {
+    private Context context;
 
-    FrameLayout frameLayout;
-
-    private SideMenuModel home;
-    private SideMenuModel website;
-
-    private ActionBarDrawerToggle navigationDrawerToggle;
+    ActionBarDrawerToggle navigationDrawerToggle;
     DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setUpSideMenuObjects();
-        setUpSideMenu();
 
+        setContentView(R.layout.activity_main);
 
-
-    }
-
-    @Override
-    public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
-
-//            getSupportFragmentManager().beginTransaction().replace(parent.getId(), new HomeFragment()).commit();
-//            getSupportActionBar().setTitle(R.string.app_name);
-//
-//        FragmentManager fragMan = getFragmentManager();
-//        FragmentTransaction fragTransaction = fragMan.beginTransaction();
-//
-//        HomeFragment homeFragment = new HomeFragment();
-//        fragTransaction.add(frameLayout.getId(), homeFragment, "homefrag");
-//        fragTransaction.commit();
-
-        return super.onCreateView(parent, name, context, attrs);
-    }
-
-    //    public Menu
-
-    public View setUpHeaderView() {
-        LinearLayout linearLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        linearLayout.setLayoutParams(linearLayoutParams);
-        linearLayout.setWeightSum(1);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-
-        ImageView imageView_Logo = new ImageView(this);
-//        imageView_Logo.setImageResource();
-
-
-        return linearLayout;
-    }
-
-    public void setUpSideMenuObjects() {
-        // Home object
-        home = new SideMenuModel("Home", getDrawable(R.mipmap.ic_launcher), 1, 1, 1);
-
-        // Website Object
-        website = new SideMenuModel("Website", getDrawable(R.mipmap.ic_launcher), 1, 1, 2);
-    }
-
-    public void setUpSideMenu() {
-        drawerLayout = new DrawerLayout(this);
-        DrawerLayout.LayoutParams drawerLayoutParams = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.MATCH_PARENT, DrawerLayout.LayoutParams.MATCH_PARENT);
-        drawerLayoutParams.gravity = Gravity.RIGHT;
-        drawerLayout.setLayoutParams(drawerLayoutParams);
+        drawerLayout = findViewById(R.id.drawerLayout);
+        NavigationView navigationView = findViewById(R.id.navigationView_Main);
+        navigationView.setNavigationItemSelectedListener(this);
         navigationDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(navigationDrawerToggle);
         navigationDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        frameLayout = new FrameLayout(this);
-        FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        frameLayout.setLayoutParams(frameLayoutParams);
-        int id = 123;
-        frameLayout.setId(id);
+        TextView textViewBuildInfo = findViewById(R.id.textView_BuildInfo);
+        try {
+            textViewBuildInfo.setText(getVersionInfo());
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
-        NavigationView navigationView = new NavigationView(this);
-        NavigationView.LayoutParams navigationViewParams = new NavigationView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        navigationViewParams.gravity = Gravity.START;
-        navigationView.setLayoutParams(navigationViewParams);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,
+                    new HomeFragment()).commit();
+            getSupportActionBar().setTitle("ChatMatch");
 
-        LinearLayout linearLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        linearLayout.setLayoutParams(linearLayoutParams);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        }
+    }
 
-        NavigationView navigationView_Main = new NavigationView(this);
-        NavigationView.LayoutParams navViewParams = new NavigationView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        navigationView_Main.setLayoutParams(navViewParams);
-        navigationView_Main.setPadding(10, 0, 10, 0);
-        navigationViewParams.gravity = Gravity.END;
-        navigationView_Main.setFitsSystemWindows(true);
-        navigationView_Main.addHeaderView(setUpHeaderView());
-        navigationView_Main.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case android.R.id.home:
-                        drawerLayout.openDrawer(GravityCompat.START);
-                        return true;
-                }
-                return false;
-            }
-        });
 
-        Menu navMenu = navigationView_Main.getMenu();
-        MenuItem homeItem = navMenu.add(home.GroupId, home.ItemId, home.Order, home.Title);
-        //        homeItem.setIcon(home.Icon);
-        MenuItem websiteItem = navMenu.add(website.GroupId, website.ItemId, website.Order, website.Title);
-//        websiteItem.setIcon(website.Icon);
+    public String getBuildNumber() throws PackageManager.NameNotFoundException {
+        context = getApplicationContext();
+        return String.valueOf(context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_META_DATA).versionCode);
+    }
 
-        drawerLayout.addView(frameLayout);
-        frameLayout.addView(navigationView_Main);
-        frameLayout.addView(linearLayout);
-        //        navigationView.addView(linearLayout);
-//        linearLayout.addView(navigationView_Main);
+    public String getVersionNumber() throws PackageManager.NameNotFoundException {
+        context = getApplicationContext();
+        return context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_META_DATA).versionName;
+    }
 
-        setContentView(drawerLayout);
+    public String getVersionInfo() throws PackageManager.NameNotFoundException {
+        String buildNumber = getBuildNumber();
+        String versionNumber = getVersionNumber();
+
+        String versionInfo = "Version " + buildNumber + "Build " + versionNumber;
+        return versionInfo;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
     }
 
     @Override
@@ -152,16 +87,35 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public ActionBarDrawerToggle getNavigationDrawerToggle() {
-        return navigationDrawerToggle;
-    }
-
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
-    public void setNavigationDrawerToggleOff() {navigationDrawerToggle.setDrawerIndicatorEnabled(false);}
-    public void setNavigationDrawerToggleOn() {navigationDrawerToggle.setDrawerIndicatorEnabled(true);}
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        switch (item.getItemId()) {
+            case R.id.menuItem_Home:
+                HomeFragment homeFragment = new HomeFragment();
+                transaction.replace(R.id.frameLayout, homeFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                setActionBarTitle("Application Versions");
+                // set bar titles in strings
+                break;
+            case R.id.menuItem_Website:
+                WebViewFragment webViewFragment = new WebViewFragment();
+                transaction.replace(R.id.frameLayout, webViewFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                setActionBarTitle("Chatmatch.me");
+                // set bar titles in strings
+                break;
+        }
+        drawerLayout.closeDrawers();
+        return false;
+    }
 }
 
 
