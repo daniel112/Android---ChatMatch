@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 transaction.replace(R.id.frameLayout, homeFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
-                setActionBarTitle("Application Versions");
+                setActionBarTitle("Chatmatch");
                 // set bar titles in strings
                 break;
             case R.id.menuItem_Website:

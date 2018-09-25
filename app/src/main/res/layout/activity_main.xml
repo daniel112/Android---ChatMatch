@@ -46,7 +46,8 @@
                         android:layout_height="match_parent"
                         android:background="@color/colorPrimaryBlue"
                         android:gravity="center_horizontal"
-                        android:text="Version 1.0.0 Build 1" />
+                        android:text="Version 1.0.0 Build 1"
+                        android:textColor="@color/colorWhite"/>
 
 
                 </LinearLayout>
