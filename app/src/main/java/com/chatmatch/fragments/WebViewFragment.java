@@ -23,7 +23,10 @@ import com.chatmatch.R;
  */
 public class WebViewFragment extends Fragment {
 
+    Boolean isLogin;
     WebView webView;
+    String homeUrl = "https://chatmatch.me";
+    String loginUrl = "https://my.chatmatch.me/login/";
     private OnFragmentInteractionListener mListener;
 
     public WebViewFragment() {
@@ -47,8 +50,14 @@ public class WebViewFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View RootView = inflater.inflate(R.layout.fragment_webview, container, false);
+        isLogin = getArguments().getBoolean("isLogIn");
         webView = (WebView) RootView.findViewById(R.id.webView);
-        webView.loadUrl("https://chatmatch.me");
+
+        if (isLogin) {
+            webView.loadUrl(loginUrl);
+        } else {
+            webView.loadUrl(homeUrl);
+        }
 
         // Enable Javascript
         WebSettings webSettings = webView.getSettings();

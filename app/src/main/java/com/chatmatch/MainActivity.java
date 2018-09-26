@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(navigationDrawerToggle);
         navigationDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        navigationView.setItemTextAppearance(R.style.navigation_fontstyle);
 
         TextView textViewBuildInfo = findViewById(R.id.textView_BuildInfo);
         try {
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        Bundle bundle = new Bundle();
 
         switch (item.getItemId()) {
             case R.id.menuItem_Home:
@@ -106,6 +108,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.menuItem_Website:
                 WebViewFragment webViewFragment = new WebViewFragment();
+                bundle.putBoolean("isLogIn", false);
+                webViewFragment.setArguments(bundle);
                 transaction.replace(R.id.frameLayout, webViewFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();

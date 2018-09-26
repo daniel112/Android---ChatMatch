@@ -11,6 +11,7 @@
         android:layout_height="fill_parent">
 
         <RelativeLayout
+            android:id="@+id/rlContentWrapper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true">
@@ -20,7 +21,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_above="@+id/textViewHowItWorks"
                 android:src="@drawable/ic_video"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"/>
@@ -32,7 +32,11 @@
                 android:layout_centerHorizontal="true"
                 android:text="@string/howitworks"
                 android:textSize="20dp"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorWhite"
+                android:layout_below="@id/imageViewPlay"
+                android:fontFamily="@font/lato_bold_fontfamily"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
 
             <Button
                 android:id="@+id/buttonLogIn"
@@ -46,7 +50,9 @@
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/textViewHowItWorks"
                 android:text="@string/login"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorWhite"
+                android:fontFamily="@font/lato"
+                android:textSize="18dp"/>
 
             <Button
                 android:id="@+id/buttonSignUp"
@@ -59,7 +65,9 @@
                 android:layout_marginBottom="5dp"
                 android:layout_below="@+id/buttonLogIn"
                 android:text="@string/signup"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorWhite"
+                android:fontFamily="@font/lato"
+                android:textSize="18dp"/>
 
         </RelativeLayout>
 
