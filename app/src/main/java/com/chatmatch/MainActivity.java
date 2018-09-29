@@ -25,18 +25,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
 
         drawerLayout = findViewById(R.id.drawerLayout);
         NavigationView navigationView = findViewById(R.id.navigationView_Main);
-        navigationView.setNavigationItemSelectedListener(this);
+//        navigationView.setNavigationItemSelectedListener(this);
         navigationDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(navigationDrawerToggle);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         navigationDrawerToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         navigationView.setItemTextAppearance(R.style.navigation_fontstyle);
+        navigationDrawerToggle.setDrawerIndicatorEnabled(false);
 
         TextView textViewBuildInfo = findViewById(R.id.textView_BuildInfo);
         try {
@@ -80,9 +83,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         if (navigationDrawerToggle.onOptionsItemSelected(item)) {
             if (drawerLayout.isDrawerOpen(Gravity.START)) {
-                drawerLayout.closeDrawer(Gravity.START);
+//                drawerLayout.closeDrawer(Gravity.START);
             } else {
-                drawerLayout.openDrawer(Gravity.START);
+//                drawerLayout.openDrawer(Gravity.START);
             }
         }
         return super.onOptionsItemSelected(item);
@@ -117,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // set bar titles in strings
                 break;
         }
-        drawerLayout.closeDrawers();
+//        drawerLayout.closeDrawers();
         return false;
     }
 }

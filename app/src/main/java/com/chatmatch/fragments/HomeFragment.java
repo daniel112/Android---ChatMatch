@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import android.widget.RelativeLayout;
 
 import com.chatmatch.R;
 import com.chatmatch.activities.VideoActivity;
+import com.chatmatch.activities.WebViewActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -96,30 +96,37 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Bundle bundle = new Bundle();
-        bundle.putBoolean("isLogIn", true);
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        WebViewFragment webViewFragment;
+//        Bundle bundle = new Bundle();
+//        bundle.putBoolean("isLogIn", true);
+//        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//        WebViewFragment webViewFragment;
+        Intent intent;
 
         switch (v.getId()) {
             case R.id.buttonLogIn:
-                webViewFragment = new WebViewFragment();
-                bundle.putBoolean("isLogIn", true);
-                webViewFragment.setArguments(bundle);
-                transaction.replace(R.id.frameLayout, webViewFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+//                webViewFragment = new WebViewFragment();
+//                bundle.putBoolean("isLogIn", true);
+//                webViewFragment.setArguments(bundle);
+//                transaction.replace(R.id.frameLayout, webViewFragment);
+//                transaction.addToBackStack(null);
+//                transaction.commit();
+                intent = new Intent(getActivity(), WebViewActivity.class);
+                intent.putExtra("isLogIn", true);
+                startActivity(intent);
                 break;
             case R.id.buttonSignUp:
-                webViewFragment = new WebViewFragment();
-                bundle.putBoolean("isLogIn", true);
-                webViewFragment.setArguments(bundle);
-                transaction.replace(R.id.frameLayout, webViewFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+//                webViewFragment = new WebViewFragment();
+//                bundle.putBoolean("isLogIn", true);
+//                webViewFragment.setArguments(bundle);
+//                transaction.replace(R.id.frameLayout, webViewFragment);
+//                transaction.addToBackStack(null);
+//                transaction.commit();
+                intent = new Intent(getActivity(), WebViewActivity.class);
+                intent.putExtra("isLogIn", true);
+                startActivity(intent);
                 break;
             case R.id.imageViewPlay:
-                Intent intent = new Intent(getActivity(), VideoActivity.class);
+                intent = new Intent(getActivity(), VideoActivity.class);
                 startActivity(intent);
             default:
                 break;
